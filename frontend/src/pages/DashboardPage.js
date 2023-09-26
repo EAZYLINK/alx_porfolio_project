@@ -2,6 +2,7 @@ import React from "react";
 import axios from "axios";
 import {Link} from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import makeToast from "../Toaster";
 
 
 function DashboardPage() {
@@ -28,7 +29,9 @@ function DashboardPage() {
             }
         })
         .catch((error) => {
-            setChatrooms([]);
+            console.log(error.message);
+            makeToast("error", 'you are not authorized');
+            navigate("/login");
         });
     }
 

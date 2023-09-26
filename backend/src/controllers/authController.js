@@ -6,7 +6,6 @@ import { userServices } from "../services/userServices.js";
 export const authController = {
     login: async (req, res, next) => {
         const { username, password } = req.body;
-        console.log(username)
         if (!username || !password) {
             return next(APIError.badRequest("Please provide all required fields"));
         }

@@ -24,10 +24,8 @@ export const chatroomController = {
         }
     },
     getAllChatrooms: async (req, res, next) => {
-        console.log("get all chatrooms");
         try {
             const chatrooms = await chatroomServices.getAllChatrooms();
-            console.log(chatrooms);
             res.status(200).json({
                 success: true,
                 message: "All chatrooms",

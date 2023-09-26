@@ -1,7 +1,7 @@
 import { Schema, model } from "mongoose";
 
 const messageSchema = new Schema({
-    chatromm: {
+    chatroom: {
         type: Schema.Types.ObjectId,
         required: 'chatroom is required',
         ref: 'Chatroom'

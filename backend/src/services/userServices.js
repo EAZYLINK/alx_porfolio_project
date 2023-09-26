@@ -10,5 +10,9 @@ export const userServices = {
     findUser: async (username) => {
         const user = await User.findOne({username})
         return user
+    },
+    getUserById: async (id) => {
+        const user = await User.findById(id)
+        return user
     }
 }

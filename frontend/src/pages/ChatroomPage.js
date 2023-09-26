@@ -14,6 +14,9 @@ function ChatroomPage({ socket}) {
                 message: messageRef.current.value,
             });
             messageRef.current.value = "";
+           
+        } else {
+            console.log("Not Connected");
         }
     }
     
