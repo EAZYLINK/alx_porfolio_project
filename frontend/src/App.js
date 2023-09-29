@@ -38,11 +38,11 @@ function App() {
   return (
    <BrowserRouter>
       <Routes>
-        <Route path="/" element={<IndexPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route path="/dashboard" element={<DashboardPage />} />
-        <Route path="/chatroom/:id" element={<ChatroomPage />} />
+        <Route path="/" element={<IndexPage />} exact/>
+        <Route path="/login" element={<LoginPage setupSocket={setupSocket}/>} />
+        <Route path="/register" element={<RegisterPage />} exact/>
+        <Route path="/dashboard" element={<DashboardPage socket={socket}/>} />
+        <Route path="/chatroom/:id" element={<ChatroomPage socket={socket}/>} />
       </Routes>
     </BrowserRouter>
   );

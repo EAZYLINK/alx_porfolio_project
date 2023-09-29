@@ -15,7 +15,8 @@ function LoginPage(props) {
         axios.post('http://localhost:8000/api/auth/login', {
             username,
             password
-        })
+        }
+        )
         .then((response) => {
             console.log(response);
             makeToast("success", response.data.message);

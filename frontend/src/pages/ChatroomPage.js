@@ -1,22 +1,30 @@
 import React from "react";
 import { useParams } from "react-router-dom";
+import axios from "axios";
 
-function ChatroomPage({ socket}) {
-    const { chatroomId } = useParams();
+function ChatroomPage({socket}) {
+    const { id} = useParams();
     const [messages, setMessages] = React.useState([]);
+    const [chatroom, setChatroom] = React.useState("");
     const messageRef = React.useRef();
     const [userId, setUserId] = React.useState("");
 
     const sendMessage = () => {
         if (socket) {
             socket.emit("chatroomMessage", {
-                chatroomId,
+                chatroomId: id,
                 message: messageRef.current.value,
             });
             messageRef.current.value = "";
            
         } else {
-            console.log("Not Connected");
+            console.log("Socket not Connected");
+        }
+    }
+
+    const checkKey = (e) => {
+        if (e.key === "Enter") {
+            sendMessage();
         }
     }
     
@@ -38,34 +46,63 @@ function ChatroomPage({ socket}) {
     React.useEffect(() => {
         if (socket) {
             socket.emit("joinRoom", {
-                chatroomId,
+                chatroomId: id,
             });
         }
         return () => {
             //Component Unmount
             if (socket) {
                 socket.emit("leaveRoom", {
-                    chatroomId,
+                    chatroomId: id,
                 });
             }
         }
         // eslint-disable-next-line
     }, []);
 
+   
+    const getChatroom = async () => {
+
+        };
+
+     React.useEffect( () => {
+            if (socket) {
+            try {
+                const token = localStorage.getItem("CC_Token");
+                if (token) {
+                    const payload = JSON.parse(atob(token.split(".")[1]));
+                    setUserId(payload.id);
+                }
+                const response =  axios.get(`http://localhost:8000/api/chatrooms/${id}`,
+                {headers: {
+                         "Authorization": "Bearer " + localStorage.getItem("CC_Token"),
+                }}
+                );
+                setChatroom(response.data.chatroom.name);
+            } catch (error) {
+                setTimeout(getChatroom, 3000);
+            }
+            }
+        // eslint-disable-next-line
+    }, [id]);
+
 
     return (
         
         <div className="chatroomPage">
             <div className="chatroomSection">
-                <div className="cardHeader">Chatroom Name</div>
+                <div className="cardHeader">
+                    { chatroom  }
+                </div>
                 <div className="chatroomContent">
                     {messages.map((message, i) => (
-                        <div key={i} className="message">
-                            <span 
-                            className={userId === message.userId ? "ownMessage" : "otherMessage"}
-                            >{message.name}:</span> {" "}
-                            {message.message}
+                        <><div key={i} className={userId === message.userId ? "me" : "others"}>
+                            <div
+                                className={userId === message.userId ? "ownMessage" : "otherMessage"}
+                            >{userId === message.userId ? "You" : message.name}</div>
+                            {message.data.message}
                         </div>
+                        <p>{message.data.createdAt}</p></>
                     ))}
                 </div>
                 <div className="chatroomActions">
@@ -74,10 +111,10 @@ function ChatroomPage({ socket}) {
                          type="text" 
                          name="message" 
                          placeholder="Say something!" 
-                         ref={messageRef}/>
+                         ref={messageRef} onKeyUp={checkKey}/>
                     </div>
                     <div>
-                        <button onClick={sendMessage}>Send</button>
+                        <button onClick={sendMessage} >Send</button>
                     </div>
                 </div>
             </div>

@@ -17,5 +17,13 @@ export const chatroomServices = {
     getChatroomByName: async (name) => {
         const chatroom = await Chatroom.findOne({ name });
         return chatroom;
-    }
+    },
+    updateChatroomNameById: async (id, name) => {
+        const updatedRoomName = await Chatroom.findByIdAndUpdate(id, { name });
+        return updatedRoomName;
+    },
+    deleteChatroomById: async (id) => {
+        const deletedChatroom = await Chatroom.findByIdAndDelete(id);
+        return deletedChatroom;
+    },
 }

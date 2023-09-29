@@ -1,8 +1,10 @@
 import React from "react";
 import axios from 'axios';
 import makeToast from "../Toaster";
+import { useNavigate } from "react-router-dom";
 
 function RegisterPage(props) {
+    const navigate = useNavigate();
     const usernameRef = React.createRef();
     const emailRef = React.createRef();
     const passwordRef = React.createRef();
@@ -20,7 +22,7 @@ function RegisterPage(props) {
         .then((response) => {
             console.log(response);
             makeToast("success", response.data.message);
-            props.history.push('/login');
+            navigate('/login');
         }, (error) => {
             console.log(error);
             makeToast("error", error.response.data.message)

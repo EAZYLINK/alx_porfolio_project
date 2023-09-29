@@ -1,5 +1,5 @@
 .chatroomPage {
-    display: grid;
+    display: flex;
     align-items: center;
     justify-content: center;
     height: 100vh;
@@ -42,8 +42,14 @@
     cursor: pointer;
   }
   
-  .message {
+  .me {
     margin-bottom: 0.25rem;
+    text-align: right;
+  }
+
+  .others {
+    margin-bottom: 0.25rem;
+    text-align: left;
   }
   
   .otherMessage {

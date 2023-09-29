@@ -14,5 +14,16 @@ export const userServices = {
     getUserById: async (id) => {
         const user = await User.findById(id)
         return user
+    },
+    getAllUsers: async () => {
+        const users = await User.find({})
+        return users
+    },
+    deleteUserById: async (id) => {
+        const deletedUser = await User.findByIdAndDelete(id)
+        return deletedUser
+    },
+    updateUserById: async (id, body) => {
+        const updatedUser = await User.findByIdAndUpdate(id, {body})
     }
 }
