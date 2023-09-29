@@ -46,6 +46,7 @@ function RegisterPage(props) {
                 <input type="password" name="password" id="password" placeholder="Enter Password" ref={passwordRef} required />
             </div>
             <button onClick={registerUser}>Login</button>
+            <p>Already have an account? <a href="/login">Login</a></p>
         </div>
     </div>
     );

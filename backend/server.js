@@ -10,10 +10,10 @@ import { Server } from 'socket.io'
 import http from 'http'
 import APIError from './src/middleware/apiError.js'
 import cors from 'cors'
-import { authServices } from './src/services/authServices.js'
-import { userServices } from './src/services/userServices.js'
-import { messageServices } from './src/services/messageServices.js'
-import { chatroomServices } from './src/services/chatroomServices.js'
+import { authController } from './src/controllers/authController.js'
+import { userController } from './src/controllers/userController.js'
+import { chatroomController } from './src/controllers/chatroomController.js'
+import { messageController } from './src/controllers/messageController.js'
 
 const {PORT, MONGODB_URI} = env
 
@@ -87,9 +87,9 @@ io.on('connection', (socket) => {
 
     socket.on("joinRoom", async({ chatroomId }) => {
         socket.join(chatroomId);
-        const chatroom =  await chatroomServices.getChatroomById(chatroomId);
+        const chatroom =  await chatroomController.getChatroomById(chatroomId);
         if (chatroom) {
-            const findUser = await userServices.getUserById(socket.userId);
+            const findUser = await userController.getUserById(socket.userId);
             socket.to(chatroomId).emit("newUserJoined", {
                 userId: socket.userId,
                 name: findUser.username
@@ -104,8 +104,8 @@ io.on('connection', (socket) => {
 
     socket.on("chatroomMessage", async ({chatroomId, message}) => {
         if (message.trim().length > 0) {
-            const findUser = await userServices.getUserById(socket.userId);
-            const newMessage =   await messageServices.createMessage(chatroomId, socket.userId, message);
+            const findUser = await userController.getUserById(socket.userId);
+            const newMessage =   await messageController.createMessage(chatroomId, socket.userId, message);
             io.to(chatroomId).emit("newMessage", {
                 data: newMessage,
                 name: findUser.username,

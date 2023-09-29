@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import DashboardPage from './pages/DashboardPage';
@@ -36,15 +36,13 @@ function App() {
   }, []);
   
   return (
-   <BrowserRouter>
       <Routes>
-        <Route path="/" element={<IndexPage />} exact/>
-        <Route path="/login" element={<LoginPage setupSocket={setupSocket}/>} />
-        <Route path="/register" element={<RegisterPage />} exact/>
-        <Route path="/dashboard" element={<DashboardPage socket={socket}/>} />
-        <Route path="/chatroom/:id" element={<ChatroomPage socket={socket}/>} />
+        <Route path="/" Component={IndexPage} exact/>
+        <Route path="/login" render ={()=><LoginPage setSocket={setSocket} />} exact/>
+        <Route path="/register" Component={<RegisterPage />} exact/>
+        <Route path="/dashboard" Component={<DashboardPage socket={socket} />} />
+        <Route path="/chatroom/:id" Component={<ChatroomPage socket={socket}/>} />
       </Routes>
-    </BrowserRouter>
   );
 }
 
