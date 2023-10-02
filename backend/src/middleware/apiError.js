@@ -8,7 +8,7 @@ class APIError extends Error {
     static notFound(message){
         return new this(404, message || "Not found")
     }
-    static invalidRequest(message) {
+    static badRequest(message) {
         return new this(400, message || "You have entered invalid credential!")
     }
     static unAuthorized(message){
@@ -17,7 +17,7 @@ class APIError extends Error {
     static unAuthenticated(message) {
         return new this(403, message || "You are not a valid user!")
     }
-    static customeError(message) {
+    static customError(message) {
         return new this(500, message || "Unknown error")
     }
 }

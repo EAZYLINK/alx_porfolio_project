@@ -1,4 +1,5 @@
 import {Message} from '../models/message.js'
+import {User} from '../models/user.js'
 
 
 export const messageServices = {
@@ -14,7 +15,7 @@ export const messageServices = {
         const message = await Message.findById(id)
         return message
     },
-    getMessagesByChatroom: async (chatroomId) => {
+    getMessagesByChatroomId: async (chatroomId) => {
         const messages = await Message.find({chatroom: chatroomId})
         return messages
     },

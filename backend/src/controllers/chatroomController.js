@@ -5,13 +5,13 @@ export const chatroomController = {
     createChatroom: async (req, res, next) => {
         const { name} = req.body;
         if (!name) {
-            return next(APIError.invalidRequest("Room name is required"));
+            return next(APIError.badRequest("Room name is required"));
         }
         try {
             const { id } = req.user;
             const findRoom = await chatroomServices.getChatroomByName(name);
             if (findRoom) {
-                return next(APIError.invalidRequest("User already exists"));
+                return next(APIError.badRequest("User already exists"));
             }
             const chatroom = await chatroomServices.createChatroom(name, id);
             res.status(200).json({ 
@@ -37,8 +37,11 @@ export const chatroomController = {
         }
     },
     getChatroomById: async (req, res, next) => {
-        const { id } = req.params;
         try {
+        const { id } = req.params;
+        if (!id) {
+            return next(APIError.badRequest("Chatroom id is required"));
+        }
             const chatroom = await chatroomServices.getChatroomById(id);
             res.status(200).json({
                 success: true,
@@ -46,7 +49,7 @@ export const chatroomController = {
                 chatroom
             })
         } catch (error) {
-            next(APIError.customeError(error.message))
+          next(APIError.customError(error.message))
         }
     }
 }

@@ -8,7 +8,7 @@ export const authServices = {
             username,
             id
         }
-        const token = Jwt.sign(payload, env.JWT_SECRET, {expiresIn: '10m'})
+        const token = Jwt.sign(payload, env.JWT_SECRET, {expiresIn: '1hr'})
         const refreshToken = Jwt.sign(payload, env.REFRESH_SECRET, {expiresIn: '1d'})
         await User.findOneAndUpdate({username}, {refreshToken})
         return token

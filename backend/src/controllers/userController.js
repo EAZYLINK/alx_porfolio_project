@@ -17,7 +17,7 @@ export const userController = {
                 message: "User registered successfully"
             })
         } catch (error) {
-           return next(APIError.customeError(error.message));
+           return next(error);
         }
     },
     findUser: async (req, res, next) => {
@@ -37,6 +37,37 @@ export const userController = {
                 success: false,
                 message: error.message
             })
+        }
+    },
+    getAllUsers: async(req, res, next) =>{
+        try {
+            const users = await userServices.getAllUsers();
+            res.status(200).json({
+                success: true,
+                message: "Users retrieved successfully",
+                data: users
+            })
+        } catch (error) {
+            next(APIError.customError(error.message))
+        }
+    },
+    getUserById: async (req, res, next) => {
+        const { id } = req.params
+        if ( !id ) {
+            return next(APIError.badRequest("Please supply user ID as params"))
+        }
+        try {
+            const user = await userServices.getUserById(id)
+            if (!user) {
+                return next(APIError.notFound("User not found"))
+            }
+            res.status(200).json({
+                success: true,
+                message: "User retrieved successfully!",
+                data: user
+            })
+        } catch (error) {
+            next(APIError.customError(error.message))
         }
     }
 }

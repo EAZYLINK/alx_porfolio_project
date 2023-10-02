@@ -20,10 +20,28 @@ export const messageController = {
               next(APIError.customError(error.message))
        }
        },
-    getMessages: async (req, res, next) => {
+    getAllMessages: async (req, res, next) => {
         try {
             const {chatroomId} = req.params
-            const messages = await messageServices.getMessagesByChatroom(chatroomId)
+            const messages = await messageServices.getAllMessages()
+            res.status(200).json(
+                {
+                    success: true,
+                    message: 'Messages retrieved successfully',
+                    data: messages
+                }
+            )       
+           } catch (error) {
+                  next(APIError.customError(error.message))
+           }
+        },
+    getMessageByChatroomId: async (req, res, next) => {
+        try {
+            const {chatroomId} = req.params
+            if (!chatroomId) {
+                return next(APIError.badRequest('Missing required parameters'))
+            }
+            const messages = await messageServices.getMessagesByChatroomId(chatroomId)
             res.status(200).json(
                 {
                     success: true,

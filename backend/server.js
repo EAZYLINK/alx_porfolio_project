@@ -14,6 +14,7 @@ import { authController } from './src/controllers/authController.js'
 import { userController } from './src/controllers/userController.js'
 import { chatroomController } from './src/controllers/chatroomController.js'
 import { messageController } from './src/controllers/messageController.js'
+import { authServices } from './src/services/authServices.js'
 
 const {PORT, MONGODB_URI} = env
 
@@ -53,14 +54,6 @@ app.use(notFound)
 app.use(errorHandler)
 
 
-
-server.listen(PORT, async () => {
-    await connectDB(MONGODB_URI)
-    console.log(`Server is running on port ${PORT}`)
-   
-})
-
-
 io.use(async(socket, next) => {
     try {
         const token = socket.handshake.query.token
@@ -83,35 +76,42 @@ io.on('connection', (socket) => {
     console.log('Connected: ' + socket.userId);
     socket.on('disconnect', () => {
         console.log('Disconnected: ' + socket.userId);
+        socket.emit("logout")
     })
 
-    socket.on("joinRoom", async({ chatroomId }) => {
+    socket.on("joinRoom", async({ chatroomId, chatroom, username }) => {
         socket.join(chatroomId);
-        const chatroom =  await chatroomController.getChatroomById(chatroomId);
-        if (chatroom) {
-            const findUser = await userController.getUserById(socket.userId);
             socket.to(chatroomId).emit("newUserJoined", {
                 userId: socket.userId,
-                name: findUser.username
+                name: username
             })
-        }
+            console.log(`${username} joined chatroom: ${chatroom}`)
     })
 
-    socket.on("leaveRoom", ({ chatroomId }) => {
+    socket.on("leaveRoom", ({ chatroomId, chatroom, username }) => {
         socket.leave(chatroomId);
-        console.log("A user left chatroom: " + chatroomId)
+        console.log(`${username} left chatroom: ${chatroom}`)
     })
 
-    socket.on("chatroomMessage", async ({chatroomId, message}) => {
+    socket.on("chatroomMessage", async ({chatroomId, message, username}) => {
+        console.log(message)
         if (message.trim().length > 0) {
-            const findUser = await userController.getUserById(socket.userId);
-            const newMessage =   await messageController.createMessage(chatroomId, socket.userId, message);
             io.to(chatroomId).emit("newMessage", {
-                data: newMessage,
-                name: findUser.username,
+                message,
+                username,
                 userId: socket.userId
             })
             console.log("Message sent to chatroom: " + chatroomId)
         }
     })
+})
+
+
+app.use(notFound)
+app.use(errorHandler)
+
+server.listen(PORT, async () => {
+    await connectDB(MONGODB_URI)
+    console.log(`Server is running on port ${PORT}`)
+   
 })

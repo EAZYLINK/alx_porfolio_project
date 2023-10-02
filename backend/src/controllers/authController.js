@@ -20,6 +20,7 @@ export const authController = {
             }
             const id = findUser._id;
             const token = await authServices.login( username, id );
+            req.headers.authorization = "Bearer " + token
             res.status(200).json({
                 success: true,
                 message: "User logged in successfully",
