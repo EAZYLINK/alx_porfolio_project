@@ -3,7 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import DashboardPage from './pages/DashboardPage';
-import IndexPage from './pages/IndexPage';
+import HomePage from './pages/HomePage';
 import ChatroomPage from './pages/ChatroomPage';
 import io from "socket.io-client";
 import makeToast from './Toaster';
@@ -37,11 +37,11 @@ function App() {
   
   return (
       <Routes>
-        <Route path="/" Component={IndexPage} exact/>
-        <Route path="/login" render ={()=><LoginPage setSocket={setSocket} />} exact/>
-        <Route path="/register" Component={<RegisterPage />} exact/>
-        <Route path="/dashboard" Component={<DashboardPage socket={socket} />} />
-        <Route path="/chatroom/:id" Component={<ChatroomPage socket={socket}/>} />
+        <Route path="/" Component={HomePage} exact/>
+        <Route path="/login" Component ={(props)=><LoginPage {...props} setupSocket={setupSocket} />} />
+        <Route path="/register" Component={RegisterPage} exact/>
+        <Route path="/dashboard" Component={()=><DashboardPage socket={socket} />} />
+        <Route path="/chatroom/:id" Component={()=><ChatroomPage socket={socket}/>} />
       </Routes>
   );
 }

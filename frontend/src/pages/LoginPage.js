@@ -2,12 +2,18 @@ import React from "react";
 import axios from 'axios';
 import makeToast from "../Toaster";
 import { useNavigate } from "react-router-dom";
+import NavBar from "../components/NavBar";
 
 function LoginPage(props) {
+    const navItems = [
+        {
+            name: "Register",
+            link: "/register",
+        }
+    ];
     const usernameRef = React.createRef();
     const passwordRef = React.createRef();
     const navigate = useNavigate();
-    console.log(props);
     const login = () => {
         const username = usernameRef.current.value;
         const password = passwordRef.current.value;
@@ -21,28 +27,33 @@ function LoginPage(props) {
             console.log(response);
             makeToast("success", response.data.message);
             localStorage.setItem("CC_Token", response.data.token);
+            props.setupSocket();
             navigate('/dashboard');
-        }, (error) => {
-            if (error && error.response && error.response.data && error.response.data.message)
+        }).catch((error) => {
+            if (error && 
+                error.response && 
+                error.response.data 
+                && error.response.data.message)
             makeToast("error", error.response.data.message)
         });
     }
     return (
-        <div className="card">
-            <div className="cardHeader">Login</div>
-            <div className="cardBody">
-                <div className="inputGroup">
-                <label htmlFor="username">Username</label>
-                <input type="text" name="username" id="username" placeholder="Enter Username" required ref={usernameRef}/>
+        <><NavBar navItems={navItems} />
+        <div className="card m-5 align-items-center">
+            <div className="card-header border-0 text-primary fs-1 fw-bold text-center bg-transparent">LOGIN</div>
+            <div className="card-body mx-5 mt-5 border-1"> 
+                <div className="input-group mb-3"> 
+                    <label htmlFor="username" className="input-group-text">Username</label>
+                    <input type="text" name="username" id="username" className="form-control" placeholder="Enter Username" required ref={usernameRef} />
                 </div>
-                <div className="inputGroup">
-                <label htmlFor="password">Password</label>
-                <input type="password" name="password" id="password" placeholder="Enter Password" required ref={passwordRef}/>
+                <div className="input-group mb-3">
+                    <label htmlFor="password" className="input-group-text">Password</label>
+                    <input type="password" name="password" id="password" className="form-control" placeholder="Enter Password" required ref={passwordRef} />
                 </div>
-                <button onClick={login}>Login</button>
+                <button onClick={login} className="btn btn-primary m-3" type="button">Login</button>
                 <p>Don't have an account? <a href="/register">Register</a></p>
             </div>
-        </div>
+        </div></>
     );
     }
 
