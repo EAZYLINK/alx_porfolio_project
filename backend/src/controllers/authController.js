@@ -27,7 +27,7 @@ export const authController = {
                 token
             })
         } catch (error) {
-           return next(APIError.customeError(error.message));
+           next(APIError.customError(error.message));
         }
     },
 
@@ -53,7 +53,7 @@ export const authController = {
                 token
             })
         } catch (error) {
-           return next(APIError.customeError(error.message));
+           next(APIError.customError(error.message));
         }
     }
 }
