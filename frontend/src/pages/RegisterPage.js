@@ -21,7 +21,7 @@ function RegisterPage(props) {
         const email = emailRef.current.value;
         const password = passwordRef.current.value;
 
-        axios.post('http://localhost:8000/api/users/register', {
+        axios.post('https://chat-app-api-5thl.onrender.com/api/users/register', {
             username,
             email,
             password
@@ -38,7 +38,7 @@ function RegisterPage(props) {
 
     return (
         <><NavBar navItems={navItems} />
-        <div className="card m-5 align-items-center">
+        <div className="card m-5 align-items-center bg-transparent border-0">
             <div className="card-header text-center border-0 bg-transparent text-primary fs-1 fw-bold">REGISTERATION</div>
             <div className="card-body mx-5 mt-5 border-1"> 
                 <div className="input-group mb-3">

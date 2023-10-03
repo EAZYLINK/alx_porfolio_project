@@ -21,7 +21,7 @@ function ChatroomPage({socket}) {
 
     const sendMessage = async() => {
         if (socket) {
-            await axios.post('http://localhost:8000/api/messages', {
+            await axios.post('https://chat-app-api-5thl.onrender.com/api/messages', {
                 chatroomId: id,
                 message: messageRef.current.value,
                 userId: userId
@@ -46,7 +46,7 @@ function ChatroomPage({socket}) {
 
 
     const getChatroom = async () => {
-        await axios.get(`http://localhost:8000/api/chatrooms/${id}`,
+        await axios.get(`https://chat-app-api-5thl.onrender.com/api/chatrooms/${id}`,
         {headers: {Authorization: `Bearer ${localStorage.getItem("CC_Token")}`}}
         ).then((response) => {
             setChatroom(response.data.chatroom.name);
@@ -82,7 +82,7 @@ function ChatroomPage({socket}) {
 
         const getUsers = async () => {
             try {
-                const response = await axios.get('http://localhost:8000/api/users',
+                const response = await axios.get('https://chat-app-api-5thl.onrender.com/api/users',
                 {headers: {Authorization: `Bearer ${token}`}}
                 )
                 setUsers(response.data.data)
@@ -92,7 +92,7 @@ function ChatroomPage({socket}) {
         }
 
         const getChatroomMessages = async () => {
-            await axios.get(`http://localhost:8000/api/messages/chatroom/${id}`,
+            await axios.get(`https://chat-app-api-5thl.onrender.com/api/messages/chatroom/${id}`,
             {headers: {Authorization: `Bearer ${token}`}}
             ).then((response) => {
                 setMessages([...response.data.data]);
@@ -115,7 +115,7 @@ function ChatroomPage({socket}) {
     }, [id, messages, socket])
 
     useEffect(() => {
-        axios.get(`http://localhost:8000/api/users/${userId}`,
+        axios.get(`https://chat-app-api-5thl.onrender.com/api/users/${userId}`,
         {headers: {Authorization: `Bearer ${localStorage.getItem("CC_Token")}`}}
         )
         .then((response)=>{
@@ -159,22 +159,24 @@ function ChatroomPage({socket}) {
     return (
         <><NavBar navItems={navItems} />
         <div className="container">
-            <div className="card mt-5 px-2">
-                <div className="card-header">
+            <div className="card mt-5 px-2 border-4">
+                <div className="card-header bg-transparent text-primary text-center fs-1 fw-bold">
                     {chatroom}
                 </div>
-                <div className="card-body">
+                <div className="card-body " style={{ maxHeight: '500px', overflowY: 'scroll' }}>
                     {messages.map((message, i) => (
                         <>
                             <div className="row">
                                 <div key={i} className={userId !== message.user ? 'card text-end mb-2 col-7 border-0' : 'card text-end mb-2 col-7 border-0'}></div>
-                                <div key={i} className={userId === message.user ? 'card bg-primary text-end text-white mb-2 col-5 border-0' : 'card text-start mb-2 col-5 me-5 bg-light'}
+                                <div key={i} className={userId === message.user ? 'card rounded bg-primary text-end text-white mb-2 col-5 border-0 round-2' : 'card text-start mb-2 col-5 me-5 bg-light'}
                                 >
-                                    <div className="card-text border-0 mb-1 fst-italic">
+                                    <div className="card-header border-0 mb-1 fst-italic">
                                         {userId === message.user ? "You" : users[users.findIndex(obj => obj._id === message.user)]?.username}
                                     </div>
-                                    <di className="card-body fs-5 fw-medium">{message.message}</di>
-                                    <p className="fs-6 fst-italic">{message.createdAt.split('.')[0].replace(/-/g, '/').replace('T', ' ')}</p>
+                                    <div className="card-body">
+                                        <div className="card-text fs-5 fw-medium">{message.message}</div>
+                                        <p className="card-text fs-6 fst-italic">{message.createdAt.split('.')[0].replace(/-/g, '/').replace('T', ' ')}</p>
+                                    </div>
                                 </div>
                             </div>
                         </>

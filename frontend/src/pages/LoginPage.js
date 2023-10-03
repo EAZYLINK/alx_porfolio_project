@@ -18,7 +18,7 @@ function LoginPage(props) {
         const username = usernameRef.current.value;
         const password = passwordRef.current.value;
 
-        axios.post('http://localhost:8000/api/auth/login', {
+        axios.post('https://chat-app-api-5thl.onrender.com/api/auth/login', {
             username,
             password
         }
@@ -39,7 +39,7 @@ function LoginPage(props) {
     }
     return (
         <><NavBar navItems={navItems} />
-        <div className="card m-5 align-items-center">
+        <div className="card m-5 align-items-center bg-transparent border-0">
             <div className="card-header border-0 text-primary fs-1 fw-bold text-center bg-transparent">LOGIN</div>
             <div className="card-body mx-5 mt-5 border-1"> 
                 <div className="input-group mb-3"> 

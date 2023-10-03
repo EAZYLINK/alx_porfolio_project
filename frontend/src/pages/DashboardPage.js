@@ -22,7 +22,7 @@ function DashboardPage() {
     if (!token) {
         navigate("/login");
     }
-     await   axios.get("http://localhost:8000/api/chatrooms", {
+     await   axios.get("https://chat-app-api-5thl.onrender.com/api/chatrooms", {
             headers: {
                 Authorization: "Bearer " + localStorage.getItem("CC_Token"),
             },
@@ -45,7 +45,7 @@ function DashboardPage() {
     }
 
     const createChatroom = async () => {
-        await axios.post("http://localhost:8000/api/chatrooms", {
+        await axios.post("https://chat-app-api-5thl.onrender.com/api/chatrooms", {
             name: chatroomNameRef.current.value,
             userId
         },
@@ -88,7 +88,7 @@ function DashboardPage() {
     return (
         <>
         <NavBar navItems={navItems} />
-        <div className="card align-items-center m-5">
+        <div className="card align-items-center m-5 bg-transparent border-0">
         <div className="card-header bg-transparent text-primary fs-1 fw-bold border-0">Chat Room</div>
         <div className="card-body mx-5 mt-3">
             <div className="input-group mb-3">

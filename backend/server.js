@@ -10,10 +10,6 @@ import { Server } from 'socket.io'
 import http from 'http'
 import APIError from './src/middleware/apiError.js'
 import cors from 'cors'
-import { authController } from './src/controllers/authController.js'
-import { userController } from './src/controllers/userController.js'
-import { chatroomController } from './src/controllers/chatroomController.js'
-import { messageController } from './src/controllers/messageController.js'
 import { authServices } from './src/services/authServices.js'
 
 const {PORT, MONGODB_URI} = env
@@ -21,7 +17,7 @@ const {PORT, MONGODB_URI} = env
 
 const app = express()
 app.use(express.json())
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: false }));
 const server = http.createServer(app)
 const io = new Server(server, {
     cors: {
