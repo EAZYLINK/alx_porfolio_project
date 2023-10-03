@@ -98,9 +98,9 @@ function DashboardPage() {
             <button className="btn btn-primary" type="button" onClick={createChatroom}>Create Chatroom</button>
         </div>
         <div className="card">
-            {chatrooms.map((chatroom) => (
+            {chatrooms.map((chatroom, i) => (
                 <div className="input-group mb-3">
-                <div key={chatroom._id} className="input-group-text">
+                <div key={i} className="input-group-text">
                 <div className="form-control mx-3">{chatroom.name}</div>
                 <Link to={"/chatroom/" + chatroom._id}>
                 <div className="form-control">Join</div>
