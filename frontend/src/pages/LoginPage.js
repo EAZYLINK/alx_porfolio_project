@@ -42,13 +42,13 @@ function LoginPage(props) {
         <div className="card m-5 align-items-center bg-transparent border-0">
             <div className="card-header border-0 text-primary fs-1 fw-bold text-center bg-transparent">LOGIN</div>
             <div className="card-body mx-5 mt-5 border-1"> 
-                <div className="input-group mb-3"> 
+                <div className="input-group mb-3 w-auto"> 
                     <label htmlFor="username" className="input-group-text">Username</label>
-                    <input type="text" name="username" id="username" className="form-control" placeholder="Enter Username" required ref={usernameRef} />
+                    <input type="text" name="username" id="username" className="form-control w-auto" placeholder="Enter Username" required ref={usernameRef} />
                 </div>
                 <div className="input-group mb-3">
                     <label htmlFor="password" className="input-group-text">Password</label>
-                    <input type="password" name="password" id="password" className="form-control" placeholder="Enter Password" required ref={passwordRef} />
+                    <input type="password" name="password" id="password" className="form-control w-auto" placeholder="Enter Password" required ref={passwordRef} />
                 </div>
                 <button onClick={login} className="btn btn-primary m-3" type="button">Login</button>
                 <p>Don't have an account? <a href="/register">Register</a></p>

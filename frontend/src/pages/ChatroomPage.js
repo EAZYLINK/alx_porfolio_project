@@ -7,7 +7,7 @@ import NavBar from "../components/NavBar";
 function ChatroomPage({socket}) {
     const navItems = [
         { name: "Home", link: "/" },
-        { name: "Chatrooms", link: "/chatrooms" },
+        { name: "Dashboard", link: "/dashboard" },
         { name: "Logout", link: "/login" },
     ];
 
