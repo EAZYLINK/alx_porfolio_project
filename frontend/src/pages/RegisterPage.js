@@ -42,15 +42,15 @@ function RegisterPage(props) {
             <div className="card-header text-center border-0 bg-transparent text-primary fs-1 fw-bold">REGISTERATION</div>
             <div className="card-body mx-4 mt-5 border-1"> 
                 <div className="input-group mb-3 w-auto">
-                    <label htmlFor="username" className="input-group-text" >Username</label>
+                    <label htmlFor="username" className="input-group-text w-auto" >Username</label>
                     <input type="text" name="username" id="username" className="form-control w-auto" placeholder="Enter Username" ref={usernameRef} required />
                 </div>
                 <div className="input-group mb-3 w-auto">
-                    <label htmlFor="email" className="input-group-text">Email</label>
+                    <label htmlFor="email" className="input-group-text w-auto">Email</label>
                     <input type="email" name="email" id="email" className="form-control w-auto" placeholder="example@email.com" ref={emailRef} required />
                 </div>
                 <div className="input-group mb-3 w-auto">
-                    <label htmlFor="password" className="input-group-text">Password</label>
+                        <label htmlFor="password" className="input-group-text w-auto">Password</label>
                     <input type="password" name="password" id="password" className="form-control w-auto" placeholder="Enter Password" ref={passwordRef} required />
                 </div>
                 <button onClick={registerUser} className="btn btn-primary m-3">Register</button>
