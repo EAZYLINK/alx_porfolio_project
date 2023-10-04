@@ -46,7 +46,7 @@ function LoginPage(props) {
                     <label htmlFor="username" className="input-group-text">Username</label>
                     <input type="text" name="username" id="username" className="form-control w-auto" placeholder="Enter Username" required ref={usernameRef} />
                 </div>
-                <div className="input-group mb-3">
+                <div className="input-group mb-3 w-auto">
                     <label htmlFor="password" className="input-group-text">Password</label>
                     <input type="password" name="password" id="password" className="form-control w-auto" placeholder="Enter Password" required ref={passwordRef} />
                 </div>
